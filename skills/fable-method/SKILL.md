@@ -2,11 +2,11 @@
 name: fable-method
 description: >-
   Run any non-trivial engineering task with frontier-model working discipline —
-  five hard gates (Scope, Evidence, Adversarial reasoning, Verify, Report) plus
-  a Delivery gate — so any model self-steers to top-tier rigor. Use for
-  reviews, debugging, root-cause investigation, design, multi-file
-  implementation, or whenever asked to work in "fable mode". Skip for trivial
-  lookups and one-line mechanical edits.
+  six hard gates (Scope, Evidence, Adversarial reasoning, Verify, Delivery,
+  Report) — so any model self-steers to top-tier rigor. Use for reviews,
+  debugging, root-cause investigation, design, multi-file implementation, or
+  whenever asked to work in "fable mode". Skip for trivial lookups and
+  one-line mechanical edits.
 ---
 
 # Fable Method
@@ -121,11 +121,11 @@ high/medium; docs/readme/changelog/version verifiably in sync.
   "Is anything hardcoded that should be config?" · "Are docs/changelog/
   version in sync?" · "Is the diff minimal and committed cleanly?"
 - Close the loop into memory: log recurring mistakes to the project's
-  self-corrections/lessons file; promote recurring corrections into durable
+  self-corrections/lessons file (create one if the project lacks it, e.g.
+  `memory/self-corrections.md`); promote recurring corrections into durable
   abstract rules; fix stale notes you invalidated. When updating any skill or
-  rules file: merge into existing rules rather than appending, delete rules
-  current models now follow unprompted, and token-optimize after the edit —
-  instructions must stay lean (see `rules/skill-evolution.md`).
+  rules file, follow `references/skill-evolution.md`: merge don't append,
+  prune rules models now follow unprompted, token-optimize after the edit.
 
 PASS: a reader who saw nothing mid-task can trust and act on the report.
 
@@ -151,13 +151,7 @@ PASS: a reader who saw nothing mid-task can trust and act on the report.
 Planning, adversarial verification, and synthesis go to the strongest
 available model at the effort the stakes justify; mechanical execution
 (scoped edits, digests, sweeps) goes to the cheapest model that passes the
-gates — the verify loop catches what cheap executors miss. Maintain a toolkit
-table (models available, scored on cost/intelligence/taste) in project config
-and route from it. See `rules/model-routing.md` in the fable-mode repo.
-
-Cost-smart decisions (quality-neutral only): probe cheaply before expensive
-fan-outs and cancel work made redundant by direct evidence; reuse instead of
-redo (resume cached runs, recover partial worker output, generate assets once
-at max size and derive variants locally); right-size fan-outs to the ask and
-log anything a bound dropped. Cost is informational — if the cheap route
-fails a gate, escalate the route, never lower the bar.
+gates — the verify loop catches what cheap executors miss. Cost-smartness is
+quality-neutral: if the cheap route fails a gate, escalate the route, never
+lower the bar. Full routing table and waste-elimination rules:
+`references/model-routing.md`.

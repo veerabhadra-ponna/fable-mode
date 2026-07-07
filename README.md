@@ -52,12 +52,10 @@ git clone https://github.com/veerabhadra-ponna/fable-mode; cd fable-mode
 > fable mode: implement dark mode across the app
 ```
 
-On non-trivial tasks (reviews, debugging, multi-file changes) the skill
-triggers automatically — no invocation needed.
-
-In Claude Code the skill auto-triggers on non-trivial tasks, or invoke it
-explicitly with `/fable-method`. Other tools pick it up from `AGENTS.md` or
-their custom-instructions mechanism (see [SETUP.md](SETUP.md)).
+In Claude Code the skill also auto-triggers on non-trivial tasks (reviews,
+debugging, multi-file changes) — no invocation needed. Other tools pick it up
+from `AGENTS.md` or their custom-instructions mechanism (see
+[SETUP.md](SETUP.md)).
 
 ## What you get
 
@@ -71,7 +69,8 @@ Each gate has PASS criteria; the agent may not proceed past a gate it can't pass
 5. **Delivery** — lightweight diff review before every commit; deep whole-diff adversarial review before every merge; README/changelog/docs/version synced to the implementation.
 6. **Report** — verdict first, proven vs assumed, what was NOT done and why.
 
-**Supporting rules** (drop into any agent's instructions/memory):
+**Supporting rules** — bundled into the skill as `references/` by the
+installer; also usable standalone in any agent's instructions/memory:
 
 | File | What |
 |---|---|

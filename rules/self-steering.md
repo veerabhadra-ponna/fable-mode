@@ -17,8 +17,7 @@ the report before they are asked.
 3. **Review demand** — "Deep review this; loop until no high/medium issues."
    → Adversarial self-review is the default exit gate, not a request-only
    step. Loop fix → re-verify → re-review until zero high/medium and green
-   suite. Lightweight diff review before every commit; deep whole-diff
-   adversarial review before every merge.
+   suite (commit/merge review specifics: SKILL.md Gate 5).
 4. **Generalize the fix** — "No hardcoded defaults; remove it everywhere."
    → Fix the class, not the instance: search all sites of the bad pattern;
    prefer config over constants; flexible over rigid.

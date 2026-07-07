@@ -7,7 +7,9 @@ This page covers what they do and how to wire other tools manually.
 
 `./install.sh` (or `.\install.ps1`) copies the skill to
 `~/.claude/skills/fable-method` (global) or, with `--project <path>` /
-`-Project <path>`, to `<path>/.claude/skills/fable-method`.
+`-Project <path>`, to `<path>/.claude/skills/fable-method`. The rules are
+bundled alongside as `references/*.md`, so the skill's internal pointers
+always resolve.
 
 - Auto-triggers on non-trivial tasks via the skill description.
 - Explicit invocation: `/fable-method`.
