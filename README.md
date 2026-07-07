@@ -27,9 +27,33 @@ AGENTS.md wiring (Codex/Gemini/Cursor), clone and pass options:
 
 ```sh
 git clone https://github.com/veerabhadra-ponna/fable-mode && cd fable-mode
-./install.sh --project <repo>   # per-project        (.ps1: -Project <repo>)
-./install.sh --agents           # AGENTS.md block    (.ps1: -Agents)
+
+# examples
+./install.sh --project ~/code/my-app             # skill for one repo only
+./install.sh --agents                            # global + ~/AGENTS.md block
+./install.sh --project ~/code/my-app --agents    # repo skill + repo AGENTS.md
 ```
+
+```powershell
+git clone https://github.com/veerabhadra-ponna/fable-mode; cd fable-mode
+
+# examples
+.\install.ps1 -Project C:\code\my-app            # skill for one repo only
+.\install.ps1 -Agents                            # global + ~\AGENTS.md block
+.\install.ps1 -Project C:\code\my-app -Agents    # repo skill + repo AGENTS.md
+```
+
+### Then use it
+
+```text
+/fable-method                                   # explicit invocation in Claude Code
+> review this branch in fable mode              # or just mention fable mode
+> use the fable method to root-cause this flaky test
+> fable mode: implement dark mode across the app
+```
+
+On non-trivial tasks (reviews, debugging, multi-file changes) the skill
+triggers automatically — no invocation needed.
 
 In Claude Code the skill auto-triggers on non-trivial tasks, or invoke it
 explicitly with `/fable-method`. Other tools pick it up from `AGENTS.md` or
