@@ -1,20 +1,21 @@
 ---
 name: fable-method
 description: >-
-  Run any non-trivial engineering task with Fable 5's working discipline —
-  five hard gates (Scope, Evidence, Adversarial reasoning, Verify, Report) —
-  so any model self-steers to Fable-grade rigor. Use for reviews, debugging,
-  root-cause investigation, design, multi-file implementation, or whenever
-  asked to "work like fable" / "fable mode". Skip for trivial lookups and
-  one-line mechanical edits.
+  Run any non-trivial engineering task with frontier-model working discipline —
+  five hard gates (Scope, Evidence, Adversarial reasoning, Verify, Report) plus
+  a Delivery gate — so any model self-steers to top-tier rigor. Use for
+  reviews, debugging, root-cause investigation, design, multi-file
+  implementation, or whenever asked to work in "fable mode". Skip for trivial
+  lookups and one-line mechanical edits.
 ---
 
 # Fable Method
 
-Portable working discipline extracted from real Fable 5 sessions
-(see fable-mode repo `docs/fable-behavior-study.md`). Model-agnostic: the gates
-are procedure, not intelligence. Each gate has PASS criteria — do not proceed
-past a gate you cannot pass; do not declare done with any gate unpassed.
+A portable working discipline that makes any capable AI coding agent operate
+with the judgment, planning, verification, and reasoning habits of a frontier
+model. Model-agnostic: the gates are procedure, not intelligence. Each gate
+has PASS criteria — do not proceed past a gate you cannot pass; do not declare
+done with any gate unpassed.
 
 ## Gate 1 — SCOPE (before any change)
 
@@ -90,19 +91,41 @@ attempt; false positives are named, not silently dropped.
 
 PASS: proof artifacts exist for every claim; loop exited clean.
 
-## Gate 5 — REPORT (calibrated, ledger-style)
+## Gate 5 — DELIVERY (before commit and before merge)
+
+- **Before every commit**: run a lightweight self-review of the full staged
+  diff — read it end to end, confirm every change belongs (no debug
+  scaffolding, dead code, stray files, secrets), catch obvious issues, and
+  resolve them before committing. Commit in logical units with conventional
+  messages.
+- **Before merging a PR / integrating a branch**: run a deep adversarial
+  review of the WHOLE change set against the base branch (whole-diff, not
+  commit-by-commit), using Gate 3's finder → refuter → gap-sweep loop. Fix
+  and re-review until no high/medium findings remain and the suite is green.
+- **Sync all documentation to the current implementation**: README, changelog,
+  version bump, API/user/architecture docs, config samples, inline doc
+  comments — everything the change touches must match reality before merge.
+  Stale docs are defects.
+
+PASS: staged diff reviewed clean; pre-merge adversarial loop exited at zero
+high/medium; docs/readme/changelog/version verifiably in sync.
+
+## Gate 6 — REPORT (calibrated, ledger-style)
 
 - Verdict first, then quantified evidence (test counts, hashes, probe
   results). Distinguish **proven** vs **assumed** explicitly.
 - Explicit sections: what changed and why / what was verified and how /
   what was NOT done and why / false positives dismissed / what to watch next.
-- Pre-empt the owner's standard probes — answer before asked:
+- Pre-empt the reviewer's standard probes — answer before asked:
   "Did you verify by running it?" · "What about <adjacent feature X>?" ·
   "Is anything hardcoded that should be config?" · "Are docs/changelog/
   version in sync?" · "Is the diff minimal and committed cleanly?"
-- Close the loop into memory: log recurring mistakes to the project
-  self-corrections file; promote session corrections into durable abstract
-  rules; fix stale memory you invalidated.
+- Close the loop into memory: log recurring mistakes to the project's
+  self-corrections/lessons file; promote recurring corrections into durable
+  abstract rules; fix stale notes you invalidated. When updating any skill or
+  rules file: merge into existing rules rather than appending, delete rules
+  current models now follow unprompted, and token-optimize after the edit —
+  instructions must stay lean (see `rules/skill-evolution.md`).
 
 PASS: a reader who saw nothing mid-task can trust and act on the report.
 
@@ -128,8 +151,9 @@ PASS: a reader who saw nothing mid-task can trust and act on the report.
 Planning, adversarial verification, and synthesis go to the strongest
 available model at the effort the stakes justify; mechanical execution
 (scoped edits, digests, sweeps) goes to the cheapest model that passes the
-gates — the verify loop catches what cheap executors miss. See the factory
-rule `feedback_model_routing.md` for the current toolkit table.
+gates — the verify loop catches what cheap executors miss. Maintain a toolkit
+table (models available, scored on cost/intelligence/taste) in project config
+and route from it. See `rules/model-routing.md` in the fable-mode repo.
 
 Cost-smart decisions (quality-neutral only): probe cheaply before expensive
 fan-outs and cancel work made redundant by direct evidence; reuse instead of
