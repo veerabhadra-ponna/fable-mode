@@ -86,8 +86,9 @@ attempt; false positives are named, not silently dropped.
   (library/CLI/data change), exercise it via a harness or direct call. Every
   "it works" claim needs a proof artifact: test output, screenshot, probe
   response, log line, commit hash.
-- Mutation-test new regression tests: reintroduce the bug, confirm the test
-  fails, restore. A test that can't fail proves nothing.
+- Cover new/changed behavior with tests — don't just run the existing suite —
+  then mutation-test them: reintroduce the bug, confirm the test fails, restore.
+  A test that can't fail proves nothing.
 - For perf/behavior comparisons: capture a control (baseline build/worktree),
   same conditions, and re-run any measurement you have reason to doubt.
 - Loop: any high/medium issue found → fix → re-verify → re-review. Exit only
