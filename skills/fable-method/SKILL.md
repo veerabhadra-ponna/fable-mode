@@ -183,12 +183,23 @@ surface (not just the top) and mechanically check what eyes miss — broken/empt
 assets, contrast, keyboard/focus order, empty·loading·error states, and the
 real input flow end to end.
 
-## Model routing (when orchestrating workers)
+## Delegation & model routing (when orchestrating workers)
 
-Planning, adversarial verification, and synthesis go to the strongest
-available model at the effort the stakes justify; mechanical execution
-(scoped edits, digests, sweeps) goes to the cheapest model that passes the
-gates — the verify loop catches what cheap executors miss. Cost-smartness is
-quality-neutral: if the cheap route fails a gate, escalate the route, never
-lower the bar. Full routing table and waste-elimination rules:
-`references/model-routing.md`.
+- **Spawn deliberately.** Use a sub-agent to parallelize independent work or to
+  escalate effort above your own (subtle correctness, deep review, root-cause)
+  — only when the task needs it; a spawn has real overhead and starts blind.
+- **Brief by reference, not re-paste.** Give the worker the file paths,
+  constraints, decisions already made, and what's already verified, so it
+  doesn't re-research what you know. For multi-step work, externalize the
+  requirements to a durable checklist the workers cite — details die at both
+  handoff boundaries.
+- **Withhold your verdict when delegating review.** Give the reviewer the facts
+  and the question, never your diagnosis or suspected answer — one handed your
+  conclusion aligns to it and stops finding real issues. Use a **fresh**
+  context, not a fork, then spot-verify its output (Gate 3).
+- **Route by stakes.** Planning, adversarial verification, and synthesis to the
+  strongest model at the effort the stakes justify; mechanical execution
+  (scoped edits, digests, sweeps) to the cheapest model that passes the gates —
+  the verify loop catches what cheap executors miss. If the cheap route fails a
+  gate, escalate the route, never lower the bar. Full table + waste rules:
+  `references/model-routing.md`.
