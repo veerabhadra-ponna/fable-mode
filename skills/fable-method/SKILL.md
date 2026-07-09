@@ -87,8 +87,10 @@ attempt; false positives are named, not silently dropped.
   "it works" claim needs a proof artifact: test output, screenshot, probe
   response, log line, commit hash.
 - Cover new/changed behavior with tests — don't just run the existing suite —
-  then mutation-test them: reintroduce the bug, confirm the test fails, restore.
-  A test that can't fail proves nothing.
+  then mutation-test them: reintroduce the bug, confirm the test fails, restore
+  it immediately — never leave the working tree in a deliberately-broken state
+  across a pause/await (a compaction mid-window makes "re-derive from disk"
+  trust the bug). A test that can't fail proves nothing.
 - For perf/behavior comparisons: capture a control (baseline build/worktree),
   same conditions, and re-run any measurement you have reason to doubt.
 - Loop: any high/medium issue found → fix → re-verify → re-review. Exit only
