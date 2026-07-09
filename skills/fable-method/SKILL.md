@@ -156,11 +156,12 @@ PASS: a reader who saw nothing mid-task can trust and act on the report.
   state from disk before continuing — never from remembered bookkeeping.
 - Production safety: inspect before destructive ops (PID command lines,
   symlink/junction reality, in-flight runs); scope commits around others'
-  concurrent WIP; checkpoint-commit long work in logical units. For state/
-  schema changes and deploys: sequence migrations expand-contract, keep old and
-  new code compatible across the rollout, avoid long locks/unbounded backfills,
-  and keep a rollback/flag path — a fresh-store local test won't catch a
-  rollout-order or lock failure.
+  concurrent WIP; checkpoint-commit long work in logical units — but branch off
+  a shared/default branch first, commit or push to a shared branch only when
+  asked, and never force-push one. For state/schema changes and deploys:
+  sequence migrations expand-contract, keep old and new code compatible across
+  the rollout, avoid long locks/unbounded backfills, and keep a rollback/flag
+  path — a fresh-store local test won't catch a rollout-order or lock failure.
 - Heartbeat: on long tasks, post brief unprompted progress notes at phase
   boundaries so the owner never has to ask "are you stuck?".
 - Risk-aware autonomy on external/real accounts: probe first, self-impose
