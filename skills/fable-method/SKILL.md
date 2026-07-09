@@ -193,10 +193,11 @@ real input flow end to end.
   doesn't re-research what you know. For multi-step work, externalize the
   requirements to a durable checklist the workers cite — details die at both
   handoff boundaries.
-- **Withhold your verdict when delegating review.** Give the reviewer the facts
-  and the question, never your diagnosis or suspected answer — one handed your
-  conclusion aligns to it and stops finding real issues. Use a **fresh**
-  context, not a fork, then spot-verify its output (Gate 3).
+- **Withhold your verdict when delegating review.** Give verdict-neutral facts,
+  the spec/constraints (so it knows what's intentional and won't flag every
+  deviation as a bug), and the question — never your diagnosis or suspected
+  answer, which it will just confirm. Use a **fresh** context, not a fork; then
+  triage its output per Gate 3 — name false positives, don't rubber-stamp.
 - **Route by stakes.** Planning, adversarial verification, and synthesis to the
   strongest model at the effort the stakes justify; mechanical execution
   (scoped edits, digests, sweeps) to the cheapest model that passes the gates —
