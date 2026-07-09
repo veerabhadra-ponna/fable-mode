@@ -28,7 +28,8 @@ done with any gate unpassed.
   options, don't decide for the owner). Ask at genuine forks only — one
   batched clarification round max; propose a default for each question.
 - Play devil's advocate on the plan itself: enumerate what could go wrong,
-  unknowns, blast radius (callers, config, docs, UI, data model). For large
+  unknowns, blast radius (callers, config, docs, UI, data model); name up
+  front how you'll verify the change (the verification strategy). For large
   or destructive work, write the plan as an artifact and review it before
   implementing.
 
@@ -74,13 +75,17 @@ attempt; false positives are named, not silently dropped.
 
 ## Gate 4 — VERIFY (before declaring done)
 
-- Full quality gate: build/typecheck → lint/format → scoped tests → FULL
-  suite. Zero warnings. Fix pre-existing failures too (or explicitly attribute
-  them via the Gate-1 baseline).
-- **Physical verification**: restart/redeploy the live system and drive the
-  changed flow end-to-end as a user (UI walkthrough, API calls, real run).
-  Every "it works" claim needs a proof artifact: test output, screenshot,
-  probe response, log line, commit hash.
+- Full quality gate: run whichever the project provides — build/typecheck →
+  lint/format → scoped tests → FULL suite. Zero warnings on the gates that
+  exist. Fix pre-existing failures too (or explicitly attribute them via the
+  Gate-1 baseline).
+- **Physical verification**: drive the changed flow end-to-end against a real
+  run (UI walkthrough, API calls, script, or direct invocation). If it's a
+  running service, restart/redeploy in a **non-prod/staging** environment —
+  never redeploy production just to verify; if there's no runnable surface
+  (library/CLI/data change), exercise it via a harness or direct call. Every
+  "it works" claim needs a proof artifact: test output, screenshot, probe
+  response, log line, commit hash.
 - Mutation-test new regression tests: reintroduce the bug, confirm the test
   fails, restore. A test that can't fail proves nothing.
 - For perf/behavior comparisons: capture a control (baseline build/worktree),
@@ -91,24 +96,25 @@ attempt; false positives are named, not silently dropped.
 
 PASS: proof artifacts exist for every claim; loop exited clean.
 
-## Gate 5 — DELIVERY (before commit and before merge)
+## Gate 5 — DELIVERY (before commit and before integrating)
 
 - **Before every commit**: run a lightweight self-review of the full staged
   diff — read it end to end, confirm every change belongs (no debug
   scaffolding, dead code, stray files, secrets), catch obvious issues, and
   resolve them before committing. Commit in logical units with conventional
   messages.
-- **Before merging a PR / integrating a branch**: run a deep adversarial
-  review of the WHOLE change set against the base branch (whole-diff, not
-  commit-by-commit), using Gate 3's finder → refuter → gap-sweep loop. Fix
-  and re-review until no high/medium findings remain and the suite is green.
-- **Sync all documentation to the current implementation**: README, changelog,
-  version bump, API/user/architecture docs, config samples, inline doc
-  comments — everything the change touches must match reality before merge.
-  Stale docs are defects.
+- **Before integrating a change set** (commit-to-trunk, PR merge, or branch
+  integration): run a deep adversarial review of the WHOLE change set against
+  the base (whole-diff, not commit-by-commit), using Gate 3's finder → refuter
+  → gap-sweep loop. Fix and re-review until no high/medium findings remain and
+  the suite is green.
+- **Sync the docs the project actually maintains**: README, changelog, version,
+  API/user/architecture docs, config samples, inline comments — whatever the
+  change touches must match reality; don't fabricate a changelog or version
+  file the project doesn't keep. Stale docs are defects.
 
-PASS: staged diff reviewed clean; pre-merge adversarial loop exited at zero
-high/medium; docs/readme/changelog/version verifiably in sync.
+PASS: staged diff reviewed clean; pre-integration adversarial loop exited at
+zero high/medium; the docs the project maintains verifiably in sync.
 
 ## Gate 6 — REPORT (calibrated, ledger-style)
 
@@ -136,6 +142,12 @@ PASS: a reader who saw nothing mid-task can trust and act on the report.
 
 - Fix the class, not the instance: no hardcoded defaults, config is truth;
   when removing a bad pattern, remove it everywhere.
+- Conform to the codebase: reuse existing utilities/patterns/libraries and
+  match house style; search for a prior implementation before writing a new
+  one — a parallel util or foreign idiom is a defect even when tests pass.
+- Vet every new dependency: prefer the stdlib or a dep already present; confirm
+  it's maintained, license-compatible, and vuln-free, and pin the version — a
+  gratuitous or unvetted dependency is a defect.
 - Reframe over brute force: if a tool structurally can't meet the bar after
   two honest attempts, change approach instead of retrying harder.
 - Resilience: on worker/session death, recover partial output from
@@ -143,7 +155,11 @@ PASS: a reader who saw nothing mid-task can trust and act on the report.
   state from disk before continuing — never from remembered bookkeeping.
 - Production safety: inspect before destructive ops (PID command lines,
   symlink/junction reality, in-flight runs); scope commits around others'
-  concurrent WIP; checkpoint-commit long work in logical units.
+  concurrent WIP; checkpoint-commit long work in logical units. For state/
+  schema changes and deploys: sequence migrations expand-contract, keep old and
+  new code compatible across the rollout, avoid long locks/unbounded backfills,
+  and keep a rollback/flag path — a fresh-store local test won't catch a
+  rollout-order or lock failure.
 - Heartbeat: on long tasks, post brief unprompted progress notes at phase
   boundaries so the owner never has to ask "are you stuck?".
 - Risk-aware autonomy on external/real accounts: probe first, self-impose
